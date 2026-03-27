@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuickChat AAC — AbleNet Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --brand: #FF6B35;
+  --brand-soft: #FFF0EB;
+  --brand-mid: #FF8C5A;
+  --teal: #00B4A0;
+  --teal-soft: #E0F7F5;
+  --blue: #3B82F6;
+  --blue-soft: #EFF6FF;
+  --purple: #8B5CF6;
+  --purple-soft: #F5F3FF;
+  --green: #10B981;
+  --green-soft: #ECFDF5;
+  --yellow: #F59E0B;
+  --yellow-soft: #FFFBEB;
+  --pink: #EC4899;
+  --pink-soft: #FDF2F8;
+  --dark: #1A1A2E;
+  --mid: #4B5563;
+  --light: #F8F7F4;
+  --white: #FFFFFF;
+  --border: #E5E7EB;
+  --shadow: 0 4px 24px rgba(0,0,0,0.08);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.12);
+  --radius: 20px;
+  --radius-sm: 12px;
+  --font-display: 'Nunito', sans-serif;
+  --font-body: 'Nunito Sans', sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--light);
+  color: var(--dark);
+  min-height: 100vh;
+}
+
+/* NAV */
+.nav {
+  background: var(--white);
+  border-bottom: 1.5px solid var(--border);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  height: 58px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.nav-logo {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 20px;
+  color: var(--brand);
+  margin-right: 32px;
+  letter-spacing: -0.5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.nav-logo span { color: var(--dark); }
+.nav-tabs { display: flex; gap: 2px; flex: 1; overflow-x: auto; scrollbar-width: none; }
+.nav-tabs::-webkit-scrollbar { display: none; }
+.nav-tab {
+  background: none; border: none;
+  padding: 8px 16px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--mid);
+  cursor: pointer;
+  border-radius: 10px;
+  white-space: nowrap;
+  transition: all 0.15s;
+  display: flex; align-items: center; gap: 6px;
+}
+.nav-tab:hover { background: var(--light); color: var(--dark); }
+.nav-tab.active { background: var(--brand-soft); color: var(--brand); }
+.nav-badge {
+  background: var(--brand);
+  color: white;
+  font-size: 9px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 99px;
+  letter-spacing: 0.05em;
+}
+
+/* HERO */
+.hero {
+  background: var(--white);
+  padding: 48px 32px 40px;
+  text-align: center;
+  border-bottom: 1.5px solid var(--border);
+}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--brand-soft);
+  color: var(--brand);
+  font-size: 12px; font-weight: 800;
+  padding: 5px 14px; border-radius: 99px;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: 38px;
+  font-weight: 900;
+  color: var(--dark);
+  letter-spacing: -1px;
+  line-height: 1.1;
+  margin-bottom: 12px;
+}
+.hero h1 em { color: var(--brand); font-style: normal; }
+.hero p {
+  font-size: 16px;
+  color: var(--mid);
+  max-width: 560px;
+  margin: 0 auto 24px;
+  line-height: 1.6;
+}
+.hero-chips { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+.hero-chip {
+  background: var(--light);
+  border: 1.5px solid var(--border);
+  color: var(--mid);
+  font-size: 12px; font-weight: 700;
+  padding: 5px 12px; border-radius: 99px;
+  display: flex; align-items: center; gap: 5px;
+}
+
+/* SCREENS */
+.screen { display: none; padding: 24px 16px; max-width: 600px; margin: 0 auto; }
+.screen.active { display: block; }
+
+/* SECTION LABEL */
+.section-label {
+  font-size: 11px; font-weight: 800; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--brand);
+  margin-bottom: 6px;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: 22px; font-weight: 900;
+  color: var(--dark); margin-bottom: 4px;
+  letter-spacing: -0.5px;
+}
+.section-sub { font-size: 13px; color: var(--mid); margin-bottom: 20px; line-height: 1.5; }
+
+/* IPAD FRAME */
+.ipad-frame {
+  background: #1C1C1E;
+  border-radius: 28px;
+  padding: 16px 12px;
+  box-shadow: var(--shadow-lg);
+}
+.ipad-cam { width: 8px; height: 8px; background: #2C2C2E; border-radius: 50%; margin: 0 auto 10px; }
+.ipad-screen {
+  background: var(--white);
+  border-radius: 18px;
+  overflow: hidden;
+  min-height: 520px;
+  display: flex; flex-direction: column;
+}
+
+/* ─── SCREEN 1: QUICKCHAT MODE ─── */
+.qc-header {
+  background: linear-gradient(135deg, #FF6B35 0%, #FF8C5A 100%);
+  padding: 14px 16px;
+  display: flex; align-items: center; gap: 10px;
+}
+.qc-logo {
+  font-family: var(--font-display);
+  font-weight: 900; font-size: 17px; color: white;
+  letter-spacing: -0.3px;
+}
+.qc-mode-badge {
+  background: rgba(255,255,255,0.25);
+  color: white; font-size: 10px; font-weight: 800;
+  padding: 3px 9px; border-radius: 99px;
+  letter-spacing: 0.06em;
+}
+.qc-avatar-wrap { margin-left: auto; display: flex; align-items: center; gap: 6px; }
+.qc-avatar { font-size: 22px; }
+.qc-child-name { color: rgba(255,255,255,0.9); font-size: 12px; font-weight: 700; }
+
+.qc-conversation {
+  flex: 1; padding: 14px 12px;
+  display: flex; flex-direction: column; gap: 10px;
+  overflow-y: auto;
+  background: #FAFAF8;
+}
+.bubble-wrap { display: flex; flex-direction: column; gap: 4px; }
+.bubble-wrap.child { align-items: flex-end; }
+.bubble-wrap.app { align-items: flex-start; }
+.bubble {
+  max-width: 78%; padding: 10px 14px;
+  border-radius: 18px; font-size: 14px; font-weight: 600;
+  line-height: 1.4; position: relative;
+}
+.bubble.child {
+  background: var(--brand); color: white;
+  border-bottom-right-radius: 5px;
+}
+.bubble.app {
+  background: white; color: var(--dark);
+  border: 1.5px solid var(--border);
+  border-bottom-left-radius: 5px;
+}
+.bubble-label {
+  font-size: 10px; font-weight: 700; color: var(--mid);
+  padding: 0 4px;
+  display: flex; align-items: center; gap: 4px;
+}
+.bubble-label.child { color: var(--brand); }
+.bubble-label.app-lbl { color: var(--teal); }
+.bubble-icon { font-size: 13px; }
+
+.qc-choices-label {
+  text-align: center; font-size: 11px; font-weight: 800;
+  color: var(--mid); letter-spacing: 0.06em;
+  text-transform: uppercase; margin: 4px 0 2px;
+  display: flex; align-items: center; gap: 8px;
+}
+.qc-choices-label::before, .qc-choices-label::after {
+  content: ''; flex: 1; height: 1px; background: var(--border);
+}
+
+.qc-choices { display: flex; flex-direction: column; gap: 6px; }
+.qc-choice {
+  background: white; border: 2px solid var(--border);
+  border-radius: 14px; padding: 11px 14px;
+  font-size: 14px; font-weight: 700; color: var(--dark);
+  cursor: pointer; transition: all 0.15s;
+  display: flex; align-items: center; gap: 10px;
+  text-align: left;
+}
+.qc-choice:hover { border-color: var(--brand); background: var(--brand-soft); transform: translateX(3px); }
+.qc-choice:active { transform: scale(0.97); }
+.qc-choice-icon { font-size: 22px; flex-shrink: 0; }
+.qc-choice-text { flex: 1; }
+.qc-choice-fun { font-size: 10px; font-weight: 800; color: var(--brand); background: var(--brand-soft); padding: 2px 7px; border-radius: 99px; }
+
+.qc-typing {
+  display: flex; align-items: center; gap: 4px; padding: 10px 14px;
+  background: white; border: 1.5px solid var(--border);
+  border-radius: 18px; border-bottom-left-radius: 5px;
+  width: fit-content;
+}
+.typing-dot {
+  width: 6px; height: 6px; background: var(--mid);
+  border-radius: 50%; animation: typingBounce 1.2s infinite;
+}
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typingBounce { 0%,80%,100%{transform:translateY(0)} 40%{transform:translateY(-5px)} }
+
+.qc-input-bar {
+  background: white; border-top: 1.5px solid var(--border);
+  padding: 10px 12px;
+  display: flex; align-items: center; gap: 8px;
+}
+.qc-sentence-preview {
+  flex: 1; background: var(--light); border-radius: 10px;
+  padding: 8px 12px; font-size: 13px; font-weight: 600;
+  color: var(--mid); min-height: 36px;
+  display: flex; align-items: center;
+}
+.qc-speak-btn {
+  background: var(--brand); color: white;
+  border: none; border-radius: 10px;
+  padding: 8px 14px; font-size: 13px; font-weight: 800;
+  cursor: pointer; white-space: nowrap;
+}
+
+/* ─── SCREEN 2: SENTENCE BUILDER ─── */
+.sb-header {
+  background: var(--teal); padding: 14px 16px;
+  display: flex; align-items: center; gap: 10px;
+}
+.sb-logo { font-family: var(--font-display); font-weight: 900; font-size: 17px; color: white; }
+.sb-mode { background: rgba(255,255,255,0.25); color: white; font-size: 10px; font-weight: 800; padding: 3px 9px; border-radius: 99px; letter-spacing: 0.06em; }
+.sb-stars { margin-left: auto; background: rgba(255,255,255,0.2); color: white; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 99px; }
+
+.sb-stage { background: white; padding: 12px; border-bottom: 2px solid #F3F4F6; }
+.sb-instruction { font-size: 11px; font-weight: 800; color: var(--teal); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+.inst-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--teal); animation: blink 1.3s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+.sb-preview { background: var(--teal-soft); border: 2px solid #80D5CF; border-radius: 12px; padding: 9px 12px; font-size: 16px; font-weight: 800; color: #006B62; text-align: center; margin-bottom: 8px; min-height: 42px; display: flex; align-items: center; justify-content: center; display: none; }
+.sb-preview.show { display: flex; }
+
+.slots-row { display: flex; gap: 6px; align-items: stretch; margin-bottom: 8px; }
+.slot { flex: 1; border-radius: 12px; padding: 8px 4px 7px; display: flex; flex-direction: column; align-items: center; gap: 3px; border: 2px dashed #D1D5DB; background: #F9FAFB; transition: all 0.2s; min-height: 68px; justify-content: center; }
+.slot.active { border-color: var(--teal); background: var(--teal-soft); animation: slotGlow 1.6s infinite; }
+.slot.filled-who { border-style: solid; border-color: #93C5FD; background: #EFF6FF; }
+.slot.filled-action { border-style: solid; border-color: #6EE7B7; background: #F0FDF4; }
+.slot.filled-thing { border-style: solid; border-color: #C4B5FD; background: #F5F3FF; }
+@keyframes slotGlow { 0%,100%{box-shadow:0 0 0 0 rgba(0,180,160,0.2)} 50%{box-shadow:0 0 0 8px rgba(0,180,160,0)} }
+.slot-icon { font-size: 22px; line-height: 1; }
+.slot-label { font-size: 10px; font-weight: 800; color: #374151; text-align: center; line-height: 1.2; }
+.slot-hint { font-size: 9px; color: #9CA3AF; }
+.slot-remove { font-size: 9px; color: #EF4444; cursor: pointer; font-weight: 700; }
+.slot-arrow { font-size: 14px; color: #D1D5DB; align-self: center; flex-shrink: 0; }
+
+.sb-btns { display: flex; gap: 6px; }
+.sb-clear { background: #FEE2E2; color: #B91C1C; border: none; border-radius: 10px; padding: 8px 11px; font-size: 12px; font-weight: 800; cursor: pointer; flex-shrink: 0; }
+.sb-speak { background: var(--teal); color: white; border: none; border-radius: 10px; padding: 8px 0; font-size: 13px; font-weight: 800; cursor: pointer; flex: 1; transition: background 0.15s; }
+.sb-speak:disabled { background: #D1D5DB; cursor: default; }
+.sb-reset { background: #F3F4F6; color: #374151; border: none; border-radius: 10px; padding: 8px 11px; font-size: 12px; cursor: pointer; flex-shrink: 0; }
+
+.sb-scene-tabs { background: #F0FDF4; padding: 6px 8px 0; display: flex; gap: 3px; border-bottom: 1.5px solid #D1FAE5; overflow-x: auto; scrollbar-width: none; }
+.sb-scene-tabs::-webkit-scrollbar { display: none; }
+.sb-scene-tab { background: none; border: none; border-radius: 8px 8px 0 0; padding: 6px 11px; font-size: 12px; font-weight: 700; cursor: pointer; color: #6B7280; white-space: nowrap; }
+.sb-scene-tab.active { background: white; color: var(--teal); }
+
+.sb-step-header { background: white; padding: 7px 12px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #F3F4F6; }
+.sb-step-pill { font-size: 10px; font-weight: 800; padding: 3px 9px; border-radius: 99px; }
+.pill-who { background: #DBEAFE; color: #1D4ED8; }
+.pill-action { background: #D1FAE5; color: #047857; }
+.pill-thing { background: #EDE9FE; color: #6D28D9; }
+.pill-done { background: #D1FAE5; color: #047857; }
+.sb-step-desc { font-size: 12px; color: #57534E; font-weight: 600; }
+
+.sb-word-grid { padding: 10px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.sb-word-card { background: white; border-radius: 12px; padding: 10px 3px 7px; display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer; border: 2px solid transparent; transition: all 0.15s; box-shadow: 0 1px 4px rgba(0,0,0,0.07); user-select: none; }
+.sb-word-card.match:hover { transform: scale(1.07); }
+.sb-word-card.match:active { transform: scale(0.92); }
+.sb-word-card.match-who:hover { border-color: #93C5FD; background: #EFF6FF; }
+.sb-word-card.match-action:hover { border-color: #6EE7B7; background: #F0FDF4; }
+.sb-word-card.match-thing:hover { border-color: #C4B5FD; background: #F5F3FF; }
+.sb-word-card.dim { opacity: 0.3; cursor: not-allowed; }
+.sb-word-icon { font-size: 26px; line-height: 1; }
+.sb-word-label { font-size: 10px; font-weight: 700; color: #1C1917; text-align: center; line-height: 1.2; }
+.sb-word-badge { font-size: 8px; font-weight: 800; padding: 1px 5px; border-radius: 6px; text-transform: uppercase; }
+.badge-who { background: #DBEAFE; color: #1D4ED8; }
+.badge-action { background: #D1FAE5; color: #047857; }
+.badge-thing { background: #EDE9FE; color: #6D28D9; }
+
+.sb-milestone { background: white; border-top: 2px solid #F3F4F6; padding: 8px 12px; display: flex; align-items: center; gap: 10px; }
+.sb-m-label { font-size: 11px; color: #6B7280; font-weight: 600; white-space: nowrap; }
+.sb-m-track { flex: 1; background: var(--teal-soft); border-radius: 99px; height: 9px; }
+.sb-m-fill { background: var(--teal); border-radius: 99px; height: 9px; transition: width 0.5s cubic-bezier(0.34,1.56,0.64,1); }
+.sb-m-count { font-size: 12px; font-weight: 800; color: #006B62; white-space: nowrap; }
+
+.sb-celebrate { display: none; background: var(--teal-soft); border-top: 2px solid #80D5CF; padding: 10px 14px; align-items: center; gap: 10px; }
+.sb-celebrate.show { display: flex; animation: celebSlide 0.3s ease; }
+@keyframes celebSlide { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none} }
+.cel-text { font-size: 13px; font-weight: 800; color: #006B62; flex: 1; }
+.cel-badge { background: var(--teal); color: white; font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 99px; }
+
+/* ─── SCREEN 3: ONBOARDING ─── */
+.ob-header { background: var(--purple); padding: 14px 16px; display: flex; align-items: center; gap: 10px; }
+.ob-logo { font-family: var(--font-display); font-weight: 900; font-size: 17px; color: white; }
+.ob-step-badge { margin-left: auto; background: rgba(255,255,255,0.25); color: white; font-size: 11px; font-weight: 800; padding: 4px 11px; border-radius: 99px; }
+
+.ob-body { flex: 1; padding: 20px 16px; background: white; overflow-y: auto; }
+.ob-progress { display: flex; gap: 4px; margin-bottom: 20px; }
+.ob-prog-dot { flex: 1; height: 4px; border-radius: 99px; background: #E5E7EB; }
+.ob-prog-dot.done { background: var(--purple); }
+.ob-prog-dot.active { background: var(--purple); opacity: 0.5; }
+
+.ob-step { display: none; }
+.ob-step.active { display: block; animation: fadeInUp 0.3s ease; }
+@keyframes fadeInUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:none} }
+
+.ob-question { font-family: var(--font-display); font-size: 20px; font-weight: 900; color: var(--dark); margin-bottom: 6px; letter-spacing: -0.4px; line-height: 1.2; }
+.ob-sub { font-size: 13px; color: var(--mid); margin-bottom: 18px; line-height: 1.5; }
+
+.ob-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+.ob-option {
+  background: #F9FAFB; border: 2px solid var(--border);
+  border-radius: 14px; padding: 12px 10px;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  cursor: pointer; transition: all 0.15s; text-align: center;
+  font-size: 12px; font-weight: 700; color: var(--dark);
+}
+.ob-option:hover, .ob-option.selected { border-color: var(--purple); background: var(--purple-soft); color: var(--purple); }
+.ob-option-icon { font-size: 28px; }
+
+.ob-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+.ob-tag {
+  background: #F3F4F6; border: 2px solid var(--border);
+  border-radius: 99px; padding: 6px 14px;
+  font-size: 12px; font-weight: 700; color: var(--mid);
+  cursor: pointer; transition: all 0.15s;
+}
+.ob-tag.selected { background: var(--purple-soft); border-color: var(--purple); color: var(--purple); }
+
+.ob-input-group { margin-bottom: 14px; }
+.ob-label { font-size: 12px; font-weight: 700; color: var(--mid); margin-bottom: 6px; display: block; }
+.ob-input {
+  width: 100%; background: #F9FAFB; border: 1.5px solid var(--border);
+  border-radius: 10px; padding: 10px 12px; font-size: 14px;
+  font-family: var(--font-body); color: var(--dark);
+  outline: none; transition: border 0.15s;
+}
+.ob-input:focus { border-color: var(--purple); background: var(--purple-soft); }
+
+.ob-ai-preview {
+  background: var(--purple-soft); border: 1.5px solid #C4B5FD;
+  border-radius: 14px; padding: 12px 14px; margin-bottom: 16px;
+}
+.ob-ai-label { font-size: 10px; font-weight: 800; color: var(--purple); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+.ob-ai-words { display: flex; flex-wrap: wrap; gap: 5px; }
+.ob-ai-word { background: white; border: 1.5px solid #C4B5FD; border-radius: 99px; padding: 4px 10px; font-size: 12px; font-weight: 700; color: var(--purple); display: flex; align-items: center; gap: 4px; }
+
+.ob-next-btn {
+  width: 100%; background: var(--purple); color: white;
+  border: none; border-radius: 14px; padding: 14px;
+  font-family: var(--font-display); font-size: 16px; font-weight: 800;
+  cursor: pointer; transition: all 0.15s;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.ob-next-btn:hover { background: #7C3AED; transform: translateY(-1px); }
+
+/* ─── SCREEN 4: SLP DASHBOARD ─── */
+.slp-header { background: var(--dark); padding: 14px 16px; display: flex; align-items: center; gap: 10px; }
+.slp-logo { font-family: var(--font-display); font-weight: 900; font-size: 17px; color: white; }
+.slp-mode { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.9); font-size: 10px; font-weight: 800; padding: 3px 9px; border-radius: 99px; letter-spacing: 0.06em; }
+.slp-child-select { margin-left: auto; background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 5px 10px; font-size: 12px; font-weight: 700; cursor: pointer; }
+
+.slp-body { flex: 1; padding: 12px; background: #F8F7F4; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+
+.slp-metrics { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.slp-metric { background: white; border-radius: 14px; padding: 12px 10px; text-align: center; border: 1.5px solid var(--border); }
+.slp-metric-num { font-family: var(--font-display); font-size: 24px; font-weight: 900; color: var(--dark); line-height: 1; margin-bottom: 2px; }
+.slp-metric-label { font-size: 10px; font-weight: 700; color: var(--mid); line-height: 1.3; }
+.slp-metric-delta { font-size: 10px; font-weight: 800; margin-top: 3px; }
+.delta-up { color: var(--green); }
+.delta-down { color: var(--pink); }
+
+.slp-card { background: white; border-radius: 14px; padding: 12px 14px; border: 1.5px solid var(--border); }
+.slp-card-title { font-size: 12px; font-weight: 800; color: var(--dark); margin-bottom: 10px; display: flex; align-items: center; gap: 7px; }
+.slp-card-icon { font-size: 15px; }
+
+.milestone-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.milestone-label { font-size: 12px; font-weight: 700; color: var(--dark); width: 130px; flex-shrink: 0; line-height: 1.3; }
+.milestone-track { flex: 1; background: #F3F4F6; border-radius: 99px; height: 8px; }
+.milestone-fill { border-radius: 99px; height: 8px; transition: width 0.8s ease; }
+.fill-green { background: var(--green); }
+.fill-blue { background: var(--blue); }
+.fill-yellow { background: var(--yellow); }
+.fill-orange { background: var(--brand); }
+.milestone-pct { font-size: 11px; font-weight: 800; color: var(--mid); width: 32px; text-align: right; }
+
+.vocab-cloud { display: flex; flex-wrap: wrap; gap: 5px; }
+.vocab-word { border-radius: 99px; padding: 4px 10px; font-size: 11px; font-weight: 700; }
+.vocab-new { background: var(--green-soft); color: #047857; }
+.vocab-growing { background: var(--blue-soft); color: #1D4ED8; }
+.vocab-core { background: var(--brand-soft); color: var(--brand); }
+.vocab-gap { background: #FEF3C7; color: #92400E; border: 1.5px dashed #FCD34D; }
+
+.ai-rec { background: var(--purple-soft); border: 1.5px solid #C4B5FD; border-radius: 10px; padding: 10px 12px; margin-bottom: 6px; display: flex; align-items: flex-start; gap: 8px; }
+.ai-rec-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+.ai-rec-body { flex: 1; }
+.ai-rec-title { font-size: 12px; font-weight: 800; color: var(--purple); margin-bottom: 2px; }
+.ai-rec-text { font-size: 11px; color: #4C1D95; line-height: 1.5; }
+.ai-rec-action { background: var(--purple); color: white; border: none; border-radius: 8px; padding: 4px 10px; font-size: 11px; font-weight: 800; cursor: pointer; margin-top: 6px; }
+
+.session-timeline { display: flex; flex-direction: column; gap: 7px; }
+.session-item { display: flex; align-items: center; gap: 10px; }
+.session-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.session-date { font-size: 11px; color: var(--mid); font-weight: 600; width: 70px; }
+.session-bar-wrap { flex: 1; background: #F3F4F6; border-radius: 99px; height: 6px; }
+.session-bar { border-radius: 99px; height: 6px; }
+.session-words { font-size: 11px; font-weight: 800; color: var(--dark); width: 55px; text-align: right; }
+
+/* FEATURE CARDS */
+.features-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+.feature-card {
+  background: white; border-radius: 16px; padding: 16px;
+  border: 1.5px solid var(--border); cursor: pointer;
+  transition: all 0.2s;
+}
+.feature-card:hover { border-color: var(--brand); transform: translateY(-2px); box-shadow: var(--shadow); }
+.feature-card-icon { font-size: 28px; margin-bottom: 8px; }
+.feature-card-title { font-family: var(--font-display); font-size: 14px; font-weight: 800; color: var(--dark); margin-bottom: 4px; }
+.feature-card-desc { font-size: 11px; color: var(--mid); line-height: 1.5; }
+.feature-card-badge { display: inline-block; margin-top: 6px; background: var(--brand-soft); color: var(--brand); font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 99px; }
+
+/* CELEBRATE overlay */
+.star-burst {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none; z-index: 999;
+  display: none; flex-direction: column; align-items: center;
+  justify-content: center;
+}
+.star-burst.show { display: flex; }
+.star-burst-inner {
+  background: white; border-radius: 24px;
+  padding: 32px 40px; text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+  animation: burstIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes burstIn { from{transform:scale(0.3);opacity:0} to{transform:scale(1);opacity:1} }
+.star-burst-emoji { font-size: 56px; margin-bottom: 8px; }
+.star-burst-text { font-family: var(--font-display); font-size: 22px; font-weight: 900; color: var(--dark); }
+.star-burst-sub { font-size: 14px; color: var(--mid); margin-top: 4px; }
+
+/* FOOTER */
+.demo-footer {
+  background: var(--dark); color: rgba(255,255,255,0.6);
+  text-align: center; padding: 20px;
+  font-size: 12px; margin-top: 40px;
+}
+.demo-footer strong { color: white; }
+</style>
+</head>
+<body>
+
+<!-- STAR BURST OVERLAY -->
+<div class="star-burst" id="star-burst">
+  <div class="star-burst-inner">
+    <div class="star-burst-emoji" id="sb-emoji">🎉</div>
+    <div class="star-burst-text" id="sb-text">Amazing sentence!</div>
+    <div class="star-burst-sub" id="sb-sub">You're a star communicator!</div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo">⚡ Quick<span>Chat</span></div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showScreen('home',this)">🏠 Overview</button>
+    <button class="nav-tab" onclick="showScreen('quickchat',this)">💬 QuickChat Mode <span class="nav-badge">NEW</span></button>
+    <button class="nav-tab" onclick="showScreen('builder',this)">🌟 Sentence Builder</button>
+    <button class="nav-tab" onclick="showScreen('onboarding',this)">✨ Setup in 2 min</button>
+    <button class="nav-tab" onclick="showScreen('slp',this)">📊 SLP Dashboard</button>
+  </div>
+</nav>
+
+<!-- HOME SCREEN -->
+<div class="screen active" id="screen-home">
+  <div style="padding: 0 0 32px;">
+    <div style="text-align:center; padding: 40px 24px 32px;">
+      <div style="display:inline-flex; align-items:center; gap:8px; background:var(--brand-soft); color:var(--brand); font-size:12px; font-weight:800; padding:5px 14px; border-radius:99px; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:16px;">Confidential · AbleNet Demo</div>
+      <div style="font-family:var(--font-display); font-size:42px; font-weight:900; color:var(--dark); letter-spacing:-1.5px; line-height:1.05; margin-bottom:12px;">Every sentence is a<br><em style="color:var(--brand); font-style:normal;">doorway</em> to more.</div>
+      <p style="font-size:15px; color:var(--mid); max-width:500px; margin:0 auto 24px; line-height:1.65;">QuickChat is an iPad AAC app built exclusively for children ages 0–5 missing language milestones. AI handles the vocabulary. Symbols inspire enthusiasm. Conversation keeps going.</p>
+      <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
+        <div style="background:var(--light); border:1.5px solid var(--border); color:var(--mid); font-size:12px; font-weight:700; padding:5px 12px; border-radius:99px; display:flex; align-items:center; gap:5px;">📱 iPad only</div>
+        <div style="background:var(--light); border:1.5px solid var(--border); color:var(--mid); font-size:12px; font-weight:700; padding:5px 12px; border-radius:99px; display:flex; align-items:center; gap:5px;">🔌 Offline-first</div>
+        <div style="background:var(--light); border:1.5px solid var(--border); color:var(--mid); font-size:12px; font-weight:700; padding:5px 12px; border-radius:99px; display:flex; align-items:center; gap:5px;">🤖 Claude AI</div>
+        <div style="background:var(--light); border:1.5px solid var(--border); color:var(--mid); font-size:12px; font-weight:700; padding:5px 12px; border-radius:99px; display:flex; align-items:center; gap:5px;">⚡ 2-min setup</div>
+      </div>
+    </div>
+
+    <div style="max-width:600px; margin:0 auto; padding:0 16px;">
+      <div style="font-size:11px; font-weight:800; letter-spacing:0.1em; text-transform:uppercase; color:var(--brand); margin-bottom:12px;">Explore the demo</div>
+      <div class="features-grid">
+        <div class="feature-card" onclick="showScreen('quickchat', document.querySelectorAll('.nav-tab')[1])">
+          <div class="feature-card-icon">💬</div>
+          <div class="feature-card-title">QuickChat Mode</div>
+          <div class="feature-card-desc">The speak-choose-speak dialogue loop. AI generates 3 contextual follow-ups after every communication.</div>
+          <div class="feature-card-badge">Core differentiator</div>
+        </div>
+        <div class="feature-card" onclick="showScreen('builder', document.querySelectorAll('.nav-tab')[2])">
+          <div class="feature-card-icon">🌟</div>
+          <div class="feature-card-title">Sentence Builder</div>
+          <div class="feature-card-desc">Guided 3-step sentence construction. Who → Does what → What/Where. Built for 0–5.</div>
+          <div class="feature-card-badge">Child-facing</div>
+        </div>
+        <div class="feature-card" onclick="showScreen('onboarding', document.querySelectorAll('.nav-tab')[3])">
+          <div class="feature-card-icon">✨</div>
+          <div class="feature-card-title">2-Minute Setup</div>
+          <div class="feature-card-desc">AI generates a personalized board from age + interests. Zero clinical configuration required.</div>
+          <div class="feature-card-badge">vs hours of setup</div>
+        </div>
+        <div class="feature-card" onclick="showScreen('slp', document.querySelectorAll('.nav-tab')[4])">
+          <div class="feature-card-icon">📊</div>
+          <div class="feature-card-title">SLP Dashboard</div>
+          <div class="feature-card-desc">Milestone tracking, vocabulary gaps, AI recommendations, and session history for clinicians.</div>
+          <div class="feature-card-badge">Clinician view</div>
+        </div>
+      </div>
+
+      <div style="background:white; border-radius:20px; padding:20px; border:1.5px solid var(--border); margin-bottom:16px;">
+        <div style="font-size:12px; font-weight:800; color:var(--mid); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px;">Why QuickChat exists</div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div style="display:flex; gap:12px; align-items:flex-start;">
+            <div style="width:32px; height:32px; border-radius:10px; background:var(--brand-soft); display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0;">⏱️</div>
+            <div><div style="font-size:13px; font-weight:800; color:var(--dark); margin-bottom:2px;">Current AAC requires hours of clinical setup</div><div style="font-size:12px; color:var(--mid); line-height:1.5;">QuickChat builds a personalized board in under 2 minutes from a child's age and interests.</div></div>
+          </div>
+          <div style="display:flex; gap:12px; align-items:flex-start;">
+            <div style="width:32px; height:32px; border-radius:10px; background:var(--teal-soft); display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0;">🔄</div>
+            <div><div style="font-size:13px; font-weight:800; color:var(--dark); margin-bottom:2px;">Existing apps end at the sentence</div><div style="font-size:12px; color:var(--mid); line-height:1.5;">QuickChat Mode keeps every exchange going with AI-generated follow-ups. Conversation, not output.</div></div>
+          </div>
+          <div style="display:flex; gap:12px; align-items:flex-start;">
+            <div style="width:32px; height:32px; border-radius:10px; background:var(--purple-soft); display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0;">❌</div>
+            <div><div style="font-size:13px; font-weight:800; color:var(--dark); margin-bottom:2px;">Devices are frequently abandoned</div><div style="font-size:12px; color:var(--mid); line-height:1.5;">Enthusiasm is a clinical priority. Emoji, humor, adaptive boards, and eventually Disney/Pixar characters.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- QUICKCHAT SCREEN -->
+<div class="screen" id="screen-quickchat">
+  <div style="max-width:600px; margin:0 auto;">
+    <div class="section-label">Core differentiator</div>
+    <div class="section-title">QuickChat Mode</div>
+    <div class="section-sub">The speak-choose-speak loop. Child communicates → AI instantly offers 3 follow-up options → child taps one → conversation continues. Gamification applied to communication.</div>
+    <div class="ipad-frame">
+      <div class="ipad-cam"></div>
+      <div class="ipad-screen">
+        <div class="qc-header">
+          <div class="qc-logo">⚡ QuickChat</div>
+          <div class="qc-mode-badge">QUICKCHAT MODE</div>
+          <div class="qc-avatar-wrap">
+            <div class="qc-avatar" id="qc-avatar">🐣</div>
+            <div class="qc-child-name">Mia</div>
+          </div>
+        </div>
+        <div class="qc-conversation" id="qc-convo">
+          <div class="bubble-wrap child">
+            <div class="bubble-label child"><span class="bubble-icon">🐣</span> Mia said</div>
+            <div class="bubble child">🐶 I love the puppy!</div>
+          </div>
+          <div class="bubble-wrap app">
+            <div class="bubble-label app-lbl"><span class="bubble-icon">✨</span> QuickChat replied</div>
+            <div class="bubble app">That's so sweet! The puppy loves you too! 🐾</div>
+          </div>
+          <div class="qc-choices-label">What do you want to say next?</div>
+          <div class="qc-choices" id="qc-choices">
+            <div class="qc-choice" onclick="qcChoose(0)">
+              <div class="qc-choice-icon">🎾</div>
+              <div class="qc-choice-text">The puppy wants to play!</div>
+            </div>
+            <div class="qc-choice" onclick="qcChoose(1)">
+              <div class="qc-choice-icon">🛁</div>
+              <div class="qc-choice-text">The puppy needs a bath.</div>
+            </div>
+            <div class="qc-choice" onclick="qcChoose(2)">
+              <div class="qc-choice-icon">🍕</div>
+              <div class="qc-choice-text">The puppy ate my pizza! 😱</div>
+              <div class="qc-choice-fun">😄 fun one!</div>
+            </div>
+          </div>
+        </div>
+        <div class="qc-input-bar">
+          <div class="qc-sentence-preview" id="qc-preview">Tap a choice above to speak...</div>
+          <button class="qc-speak-btn" onclick="qcSpeak()">🔊 Say it!</button>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:16px; background:white; border-radius:16px; padding:16px; border:1.5px solid var(--border);">
+      <div style="font-size:12px; font-weight:800; color:var(--mid); margin-bottom:8px; text-transform:uppercase; letter-spacing:0.07em;">How it works</div>
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <div style="display:flex; align-items:center; gap:10px;"><div style="width:24px; height:24px; border-radius:99px; background:var(--brand); color:white; font-size:12px; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0;">1</div><div style="font-size:13px; color:var(--dark); font-weight:600;">Child builds a communication on their symbol board — a word, phrase, or sentence</div></div>
+        <div style="display:flex; align-items:center; gap:10px;"><div style="width:24px; height:24px; border-radius:99px; background:var(--brand); color:white; font-size:12px; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0;">2</div><div style="font-size:13px; color:var(--dark); font-weight:600;">Device speaks it aloud. AI immediately generates 3 contextual follow-up options</div></div>
+        <div style="display:flex; align-items:center; gap:10px;"><div style="width:24px; height:24px; border-radius:99px; background:var(--brand); color:white; font-size:12px; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0;">3</div><div style="font-size:13px; color:var(--dark); font-weight:600;">Child taps one — it speaks — next 3 options appear. Conversation keeps going.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BUILDER SCREEN -->
+<div class="screen" id="screen-builder">
+  <div style="max-width:600px; margin:0 auto;">
+    <div class="section-label">Child-facing experience</div>
+    <div class="section-title">Sentence Builder</div>
+    <div class="section-sub">Guided 3-step flow: pick Who, then Does what, then What/Where. Each step lights up in sequence. The sentence builds live. Completion triggers celebration.</div>
+    <div class="ipad-frame">
+      <div class="ipad-cam"></div>
+      <div class="ipad-screen">
+        <div class="sb-header">
+          <div class="sb-logo">⚡ QuickChat</div>
+          <div class="sb-mode">BUILD A SENTENCE</div>
+          <div class="sb-stars" id="sb-stars">⭐ 0 stars</div>
+        </div>
+        <div class="sb-stage">
+          <div class="sb-instruction"><div class="inst-dot" id="sb-inst-dot"></div><span id="sb-inst">Step 1 — Who is in your sentence?</span></div>
+          <div class="sb-preview" id="sb-preview"></div>
+          <div class="slots-row">
+            <div class="slot active" id="sb-slot-who">
+              <div class="slot-icon" id="sb-si-who">👤</div>
+              <div class="slot-label" id="sb-sl-who">Who?</div>
+              <div class="slot-hint" id="sb-sh-who">tap below</div>
+            </div>
+            <div class="slot-arrow">→</div>
+            <div class="slot" id="sb-slot-action">
+              <div class="slot-icon" id="sb-si-action">⚡</div>
+              <div class="slot-label" id="sb-sl-action">Does what?</div>
+              <div class="slot-hint" id="sb-sh-action"></div>
+            </div>
+            <div class="slot-arrow">→</div>
+            <div class="slot" id="sb-slot-thing">
+              <div class="slot-icon" id="sb-si-thing">✨</div>
+              <div class="slot-label" id="sb-sl-thing">What / Where?</div>
+              <div class="slot-hint" id="sb-sh-thing"></div>
+            </div>
+          </div>
+          <div class="sb-btns">
+            <button class="sb-clear" onclick="sbClear()">✕ Clear</button>
+            <button class="sb-speak" id="sb-speak-btn" disabled onclick="sbSpeak()">🔊 Say my sentence!</button>
+            <button class="sb-reset" onclick="sbReset()">↺</button>
+          </div>
+        </div>
+        <div class="sb-scene-tabs">
+          <button class="sb-scene-tab active" onclick="sbSetScene('animals',this)">🦁 Animals</button>
+          <button class="sb-scene-tab" onclick="sbSetScene('food',this)">🍓 Food</button>
+          <button class="sb-scene-tab" onclick="sbSetScene('play',this)">🎠 Play</button>
+          <button class="sb-scene-tab" onclick="sbSetScene('nature',this)">🌈 Outside</button>
+          <button class="sb-scene-tab" onclick="sbSetScene('family',this)">🏠 Family</button>
+        </div>
+        <div class="sb-step-header" id="sb-step-header">
+          <div class="sb-step-pill pill-who" id="sb-step-pill">Step 1</div>
+          <div class="sb-step-desc" id="sb-step-desc">Choose WHO is in your sentence</div>
+        </div>
+        <div class="sb-word-grid" id="sb-word-grid"></div>
+        <div class="sb-milestone">
+          <div class="sb-m-label">Sentences today</div>
+          <div class="sb-m-track"><div class="sb-m-fill" id="sb-m-fill" style="width:0%"></div></div>
+          <div class="sb-m-count" id="sb-m-count">0 / 5 ⭐</div>
+        </div>
+        <div class="sb-celebrate" id="sb-celebrate">
+          <div style="font-size:20px;" id="sb-cel-emoji">🎉</div>
+          <div class="cel-text" id="sb-cel-text">Amazing sentence!</div>
+          <div class="cel-badge" id="sb-cel-badge">+1 ⭐</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ONBOARDING SCREEN -->
+<div class="screen" id="screen-onboarding">
+  <div style="max-width:600px; margin:0 auto;">
+    <div class="section-label">Family & caregiver setup</div>
+    <div class="section-title">Ready in 2 minutes</div>
+    <div class="section-sub">No training required. AI generates a personalized board from 3 simple questions. The child can start communicating in their very first session.</div>
+    <div class="ipad-frame">
+      <div class="ipad-cam"></div>
+      <div class="ipad-screen">
+        <div class="ob-header">
+          <div class="ob-logo">⚡ QuickChat Setup</div>
+          <div class="ob-step-badge" id="ob-step-badge">Step 1 of 4</div>
+        </div>
+        <div class="ob-body">
+          <div class="ob-progress" id="ob-progress">
+            <div class="ob-prog-dot active" id="ob-p0"></div>
+            <div class="ob-prog-dot" id="ob-p1"></div>
+            <div class="ob-prog-dot" id="ob-p2"></div>
+            <div class="ob-prog-dot" id="ob-p3"></div>
+          </div>
+
+          <!-- Step 1: Age -->
+          <div class="ob-step active" id="ob-step-0">
+            <div class="ob-question">How old is your child?</div>
+            <div class="ob-sub">We'll build a vocabulary board matched to their developmental stage.</div>
+            <div class="ob-options" id="ob-age-opts">
+              <div class="ob-option" onclick="obSelect(this,'age-opts')"><div class="ob-option-icon">👶</div>Under 18 months</div>
+              <div class="ob-option selected" onclick="obSelect(this,'age-opts')"><div class="ob-option-icon">🐣</div>18–30 months</div>
+              <div class="ob-option" onclick="obSelect(this,'age-opts')"><div class="ob-option-icon">🐥</div>30–42 months</div>
+              <div class="ob-option" onclick="obSelect(this,'age-opts')"><div class="ob-option-icon">🐤</div>42–60 months</div>
+            </div>
+            <button class="ob-next-btn" onclick="obNext(1)">Next → <span style="font-size:13px; font-weight:600; opacity:0.8;">Tell us their interests</span></button>
+          </div>
+
+          <!-- Step 2: Interests -->
+          <div class="ob-step" id="ob-step-1">
+            <div class="ob-question">What does your child love? 🌟</div>
+            <div class="ob-sub">Pick everything that fits. AI will weave these into their vocabulary board.</div>
+            <div class="ob-tags" id="ob-interest-tags">
+              <div class="ob-tag selected" onclick="this.classList.toggle('selected')">🐶 Animals</div>
+              <div class="ob-tag selected" onclick="this.classList.toggle('selected')">🚗 Cars & trucks</div>
+              <div class="ob-tag" onclick="this.classList.toggle('selected')">🎵 Music & dancing</div>
+              <div class="ob-tag" onclick="this.classList.toggle('selected')">🍕 Food</div>
+              <div class="ob-tag selected" onclick="this.classList.toggle('selected')">🌳 Outdoors</div>
+              <div class="ob-tag" onclick="this.classList.toggle('selected')">📚 Books & stories</div>
+              <div class="ob-tag" onclick="this.classList.toggle('selected')">🎨 Drawing & art</div>
+              <div class="ob-tag" onclick="this.classList.toggle('selected')">⚽ Sports & balls</div>
+              <div class="ob-tag" onclick="this.classList.toggle('selected')">🧸 Stuffed animals</div>
+              <div class="ob-tag" onclick="this.classList.toggle('selected')">💧 Water & swimming</div>
+            </div>
+            <button class="ob-next-btn" onclick="obNext(2)">Next → <span style="font-size:13px; font-weight:600; opacity:0.8;">Child's name & goals</span></button>
+          </div>
+
+          <!-- Step 3: Name + Goals -->
+          <div class="ob-step" id="ob-step-2">
+            <div class="ob-question">Almost done! A couple more things.</div>
+            <div class="ob-sub">This helps personalize the board and track progress over time.</div>
+            <div class="ob-input-group">
+              <label class="ob-label">Child's first name</label>
+              <input class="ob-input" type="text" value="Mia" placeholder="e.g. Mia" />
+            </div>
+            <div class="ob-input-group">
+              <label class="ob-label">Primary communication goal</label>
+              <select class="ob-input">
+                <option>Build first words (pre-verbal)</option>
+                <option selected>Expand to 2–3 word phrases</option>
+                <option>Build sentences and conversation</option>
+                <option>Support transition to verbal speech</option>
+              </select>
+            </div>
+            <button class="ob-next-btn" onclick="obNext(3)">✨ Generate Mia's board!</button>
+          </div>
+
+          <!-- Step 4: AI Generated Board -->
+          <div class="ob-step" id="ob-step-3">
+            <div class="ob-question">Mia's board is ready! 🎉</div>
+            <div class="ob-sub">AI built a personalized vocabulary board in seconds — based on Mia's age, her love of animals, cars, and outdoors, and her goal of building 2–3 word phrases.</div>
+            <div class="ob-ai-preview">
+              <div class="ob-ai-label">✨ AI-generated vocabulary · 18–30 months · Core + Interest words</div>
+              <div class="ob-ai-words">
+                <div class="ob-ai-word">🐶 puppy</div>
+                <div class="ob-ai-word">🚗 car</div>
+                <div class="ob-ai-word">🌳 outside</div>
+                <div class="ob-ai-word">❤️ love</div>
+                <div class="ob-ai-word">🏃 go</div>
+                <div class="ob-ai-word">👀 look</div>
+                <div class="ob-ai-word">➕ more</div>
+                <div class="ob-ai-word">😊 happy</div>
+                <div class="ob-ai-word">🌸 flower</div>
+                <div class="ob-ai-word">🚙 vroom</div>
+                <div class="ob-ai-word">🐱 kitty</div>
+                <div class="ob-ai-word">☀️ sunny</div>
+              </div>
+            </div>
+            <div style="background:#F0FDF4; border:1.5px solid #86EFAC; border-radius:12px; padding:12px 14px; margin-bottom:14px;">
+              <div style="font-size:12px; font-weight:800; color:#166534; margin-bottom:4px;">✅ Setup complete</div>
+              <div style="font-size:12px; color:#15803D; line-height:1.6;">Mia's board is ready. Core vocabulary is loaded. QuickChat Mode is active. Mia can start communicating right now — no SLP required for first use.</div>
+            </div>
+            <button class="ob-next-btn" style="background:var(--green);" onclick="obNext(0)">🚀 Start communicating with Mia!</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLP DASHBOARD SCREEN -->
+<div class="screen" id="screen-slp">
+  <div style="max-width:600px; margin:0 auto;">
+    <div class="section-label">Clinician tools</div>
+    <div class="section-title">SLP Dashboard</div>
+    <div class="section-sub">Real-time milestone tracking, vocabulary gap analysis, and AI-powered recommendations. Setup reduced from hours to minutes.</div>
+    <div class="ipad-frame">
+      <div class="ipad-cam"></div>
+      <div class="ipad-screen">
+        <div class="slp-header">
+          <div class="slp-logo">⚡ QuickChat</div>
+          <div class="slp-mode">SLP VIEW</div>
+          <div class="slp-child-select">🐣 Mia, 2.5y ▾</div>
+        </div>
+        <div class="slp-body">
+
+          <div class="slp-metrics">
+            <div class="slp-metric">
+              <div class="slp-metric-num" style="color:var(--brand);">147</div>
+              <div class="slp-metric-label">Unique words this week</div>
+              <div class="slp-metric-delta delta-up">↑ 23 vs last week</div>
+            </div>
+            <div class="slp-metric">
+              <div class="slp-metric-num" style="color:var(--teal);">68%</div>
+              <div class="slp-metric-label">2-word combinations</div>
+              <div class="slp-metric-delta delta-up">↑ from 41%</div>
+            </div>
+            <div class="slp-metric">
+              <div class="slp-metric-num" style="color:var(--purple);">12</div>
+              <div class="slp-metric-label">Spontaneous requests</div>
+              <div class="slp-metric-delta delta-up">↑ 8 vs last week</div>
+            </div>
+          </div>
+
+          <div class="slp-card">
+            <div class="slp-card-title"><span class="slp-card-icon">🎯</span> Milestone progress</div>
+            <div class="milestone-row">
+              <div class="milestone-label">2-word combinations</div>
+              <div class="milestone-track"><div class="milestone-fill fill-green" style="width:68%"></div></div>
+              <div class="milestone-pct">68%</div>
+            </div>
+            <div class="milestone-row">
+              <div class="milestone-label">Core vocabulary (50 words)</div>
+              <div class="milestone-track"><div class="milestone-fill fill-blue" style="width:84%"></div></div>
+              <div class="milestone-pct">84%</div>
+            </div>
+            <div class="milestone-row">
+              <div class="milestone-label">Spontaneous requests</div>
+              <div class="milestone-track"><div class="milestone-fill fill-yellow" style="width:52%"></div></div>
+              <div class="milestone-pct">52%</div>
+            </div>
+            <div class="milestone-row">
+              <div class="milestone-label">Turn-taking exchanges</div>
+              <div class="milestone-track"><div class="milestone-fill fill-orange" style="width:37%"></div></div>
+              <div class="milestone-pct">37%</div>
+            </div>
+          </div>
+
+          <div class="slp-card">
+            <div class="slp-card-title"><span class="slp-card-icon">📖</span> Vocabulary snapshot</div>
+            <div class="vocab-cloud">
+              <div class="vocab-word vocab-new">🐶 puppy ✨</div>
+              <div class="vocab-word vocab-new">🌳 outside ✨</div>
+              <div class="vocab-word vocab-growing">🚗 car →</div>
+              <div class="vocab-word vocab-growing">😊 happy →</div>
+              <div class="vocab-word vocab-core">❤️ love ⭐</div>
+              <div class="vocab-word vocab-core">➕ more ⭐</div>
+              <div class="vocab-word vocab-core">🏃 go ⭐</div>
+              <div class="vocab-word vocab-gap">🆘 help ?</div>
+              <div class="vocab-word vocab-gap">🛑 stop ?</div>
+              <div class="vocab-word vocab-gap">🔄 again ?</div>
+            </div>
+            <div style="display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;">
+              <div style="font-size:10px; font-weight:700; color:#047857; display:flex; align-items:center; gap:4px;"><div style="width:8px; height:8px; border-radius:99px; background:var(--green);"></div> New this week</div>
+              <div style="font-size:10px; font-weight:700; color:#1D4ED8; display:flex; align-items:center; gap:4px;"><div style="width:8px; height:8px; border-radius:99px; background:var(--blue);"></div> Growing</div>
+              <div style="font-size:10px; font-weight:700; color:var(--brand); display:flex; align-items:center; gap:4px;"><div style="width:8px; height:8px; border-radius:99px; background:var(--brand);"></div> Core mastered</div>
+              <div style="font-size:10px; font-weight:700; color:#92400E; display:flex; align-items:center; gap:4px;"><div style="width:8px; height:8px; border-radius:99px; background:var(--yellow);"></div> Gap detected</div>
+            </div>
+          </div>
+
+          <div class="slp-card">
+            <div class="slp-card-title"><span class="slp-card-icon">🤖</span> AI recommendations</div>
+            <div class="ai-rec">
+              <div class="ai-rec-icon">💡</div>
+              <div class="ai-rec-body">
+                <div class="ai-rec-title">Introduce functional core words</div>
+                <div class="ai-rec-text">Mia hasn't used "help," "stop," or "again" in 5 sessions. These are high-frequency core words for 24–30 months. AI has queued them for her next 3 sessions with animal-themed contexts.</div>
+                <button class="ai-rec-action">Apply to board</button>
+              </div>
+            </div>
+            <div class="ai-rec">
+              <div class="ai-rec-icon">🌟</div>
+              <div class="ai-rec-body">
+                <div class="ai-rec-title">Farm scene vocabulary surge</div>
+                <div class="ai-rec-text">Mia used farm-related words 14 times this week. AI recommends adding: barn, hay, moo, tractor to capitalize on this interest window.</div>
+                <button class="ai-rec-action">Add to board</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="slp-card">
+            <div class="slp-card-title"><span class="slp-card-icon">📅</span> Session activity</div>
+            <div class="session-timeline">
+              <div class="session-item">
+                <div class="session-dot" style="background:var(--green);"></div>
+                <div class="session-date">Today</div>
+                <div class="session-bar-wrap"><div class="session-bar" style="width:90%; background:var(--green);"></div></div>
+                <div class="session-words">34 words</div>
+              </div>
+              <div class="session-item">
+                <div class="session-dot" style="background:var(--blue);"></div>
+                <div class="session-date">Yesterday</div>
+                <div class="session-bar-wrap"><div class="session-bar" style="width:72%; background:var(--blue);"></div></div>
+                <div class="session-words">27 words</div>
+              </div>
+              <div class="session-item">
+                <div class="session-dot" style="background:var(--brand);"></div>
+                <div class="session-date">Mon</div>
+                <div class="session-bar-wrap"><div class="session-bar" style="width:55%; background:var(--brand);"></div></div>
+                <div class="session-words">21 words</div>
+              </div>
+              <div class="session-item">
+                <div class="session-dot" style="background:var(--yellow);"></div>
+                <div class="session-date">Sun</div>
+                <div class="session-bar-wrap"><div class="session-bar" style="width:40%; background:var(--yellow);"></div></div>
+                <div class="session-words">15 words</div>
+              </div>
+              <div class="session-item">
+                <div class="session-dot" style="background:#E5E7EB;"></div>
+                <div class="session-date">Sat</div>
+                <div class="session-bar-wrap"><div class="session-bar" style="width:22%; background:#E5E7EB;"></div></div>
+                <div class="session-words">8 words</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="demo-footer">
+  <strong>QuickChat AAC</strong> · Confidential concept demo for AbleNet, Inc. · Built with Claude AI · March 2026
+</div>
+
+<script>
+/* ── NAV ── */
+function showScreen(id, tabEl) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  if (tabEl && tabEl.classList) tabEl.classList.add('active');
+  else document.querySelectorAll('.nav-tab')[0].classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ── QUICKCHAT MODE ── */
+const QC_FLOWS = [
+  {
+    child: "🐶 I love the puppy!",
+    app: "That's so sweet! The puppy loves you too! 🐾",
+    choices: [
+      {icon:"🎾", text:"The puppy wants to play!", fun:false},
+      {icon:"🛁", text:"The puppy needs a bath.", fun:false},
+      {icon:"🍕", text:"The puppy ate my pizza! 😱", fun:true},
+    ]
+  },
+  {
+    child: "🎾 The puppy wants to play!",
+    app: "Let's go to the park! The puppy is SO excited! 🌳",
+    choices: [
+      {icon:"🌳", text:"We can run in the grass!", fun:false},
+      {icon:"🦋", text:"Look, a butterfly!", fun:false},
+      {icon:"🎭", text:"The puppy is being SO dramatic!", fun:true},
+    ]
+  },
+  {
+    child: "🌳 We can run in the grass!",
+    app: "Running is so fun! You're both so fast! 🏃‍♀️💨",
+    choices: [
+      {icon:"😄", text:"I am super fast!", fun:false},
+      {icon:"🌸", text:"I see pretty flowers!", fun:false},
+      {icon:"🐛", text:"There's a worm! EWWW! 😱", fun:true},
+    ]
+  },
+];
+let qcStep = 0;
+let qcSelected = null;
+
+function qcChoose(idx) {
+  const flow = QC_FLOWS[qcStep];
+  qcSelected = flow.choices[idx].text;
+  document.getElementById('qc-preview').textContent = qcSelected;
+  document.querySelectorAll('.qc-choice').forEach((c,i) => {
+    c.style.borderColor = i===idx ? 'var(--brand)' : '';
+    c.style.background = i===idx ? 'var(--brand-soft)' : '';
+  });
+}
+
+function qcSpeak() {
+  if (!qcSelected) return;
+  if ('speechSynthesis' in window) {
+    const u = new SpeechSynthesisUtterance(qcSelected);
+    u.rate = 0.85; u.pitch = 1.1;
+    speechSynthesis.speak(u);
+  }
+  qcStep = (qcStep + 1) % QC_FLOWS.length;
+  const next = QC_FLOWS[qcStep];
+  const convo = document.getElementById('qc-convo');
+  const typing = document.createElement('div');
+  typing.className = 'bubble-wrap app';
+  typing.innerHTML = '<div class="qc-typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
+  const oldChoices = document.getElementById('qc-choices');
+  const oldLabel = oldChoices.previousElementSibling;
+  oldLabel.remove();
+  oldChoices.remove();
+  convo.appendChild(typing);
+  convo.scrollTop = convo.scrollHeight;
+  setTimeout(() => {
+    typing.remove();
+    const childBubble = document.createElement('div');
+    childBubble.className = 'bubble-wrap child';
+    childBubble.innerHTML = `<div class="bubble-label child"><span class="bubble-icon">🐣</span> Mia said</div><div class="bubble child">${next.child}</div>`;
+    convo.appendChild(childBubble);
+    setTimeout(() => {
+      const appTyping = document.createElement('div');
+      appTyping.className = 'bubble-wrap app';
+      appTyping.innerHTML = '<div class="qc-typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
+      convo.appendChild(appTyping);
+      convo.scrollTop = convo.scrollHeight;
+      setTimeout(() => {
+        appTyping.remove();
+        const appBubble = document.createElement('div');
+        appBubble.className = 'bubble-wrap app';
+        appBubble.innerHTML = `<div class="bubble-label app-lbl"><span class="bubble-icon">✨</span> QuickChat replied</div><div class="bubble app">${next.app}</div>`;
+        convo.appendChild(appBubble);
+        const label = document.createElement('div');
+        label.className = 'qc-choices-label';
+        label.textContent = 'What do you want to say next?';
+        convo.appendChild(label);
+        const choices = document.createElement('div');
+        choices.className = 'qc-choices';
+        choices.id = 'qc-choices';
+        choices.innerHTML = next.choices.map((c,i) => `
+          <div class="qc-choice" onclick="qcChoose(${i})">
+            <div class="qc-choice-icon">${c.icon}</div>
+            <div class="qc-choice-text">${c.text}</div>
+            ${c.fun ? '<div class="qc-choice-fun">😄 fun one!</div>' : ''}
+          </div>`).join('');
+        convo.appendChild(choices);
+        convo.scrollTop = convo.scrollHeight;
+        document.getElementById('qc-preview').textContent = 'Tap a choice above to speak...';
+        qcSelected = null;
+      }, 900);
+    }, 300);
+  }, 1200);
+}
+
+/* ── SENTENCE BUILDER ── */
+const SB_SCENES = {
+  animals: {
+    who:    [{icon:'🐶',label:'the puppy'},{icon:'🐱',label:'the kitty'},{icon:'🐸',label:'the froggy'},{icon:'🦁',label:'the lion'}],
+    action: [{icon:'🏃',label:'runs'},{icon:'🎵',label:'sings'},{icon:'🤸',label:'jumps'},{icon:'😴',label:'sleeps'}],
+    thing:  [{icon:'🌿',label:'in the grass'},{icon:'🌳',label:'by the tree'},{icon:'💦',label:'in the water'},{icon:'☀️',label:'in the sun'}],
+  },
+  food: {
+    who:    [{icon:'👧',label:'Mia'},{icon:'👩',label:'mama'},{icon:'👨',label:'dada'},{icon:'👶',label:'baby'}],
+    action: [{icon:'😋',label:'loves'},{icon:'🍽️',label:'eats'},{icon:'🤤',label:'wants'},{icon:'👀',label:'sees'}],
+    thing:  [{icon:'🍓',label:'strawberries'},{icon:'🍦',label:'ice cream'},{icon:'🥞',label:'pancakes'},{icon:'🍕',label:'pizza'}],
+  },
+  play: {
+    who:    [{icon:'👧',label:'I'},{icon:'👦',label:'my friend'},{icon:'👩',label:'mama'},{icon:'🐶',label:'the puppy'}],
+    action: [{icon:'💃',label:'dances'},{icon:'🎨',label:'paints'},{icon:'🏃',label:'runs'},{icon:'🤸',label:'jumps'}],
+    thing:  [{icon:'🎠',label:'at the park'},{icon:'🏠',label:'at home'},{icon:'🎵',label:'to the music'},{icon:'🌤️',label:'outside'}],
+  },
+  nature: {
+    who:    [{icon:'🦋',label:'the butterfly'},{icon:'🐝',label:'the bee'},{icon:'🐦',label:'the bird'},{icon:'👧',label:'I'}],
+    action: [{icon:'🪁',label:'flies'},{icon:'🌸',label:'loves'},{icon:'👀',label:'sees'},{icon:'🎵',label:'sings'}],
+    thing:  [{icon:'🌈',label:'the rainbow'},{icon:'🌸',label:'the flowers'},{icon:'☀️',label:'the sunshine'},{icon:'🌊',label:'the water'}],
+  },
+  family: {
+    who:    [{icon:'👩',label:'mama'},{icon:'👨',label:'dada'},{icon:'👧',label:'I'},{icon:'👶',label:'baby'}],
+    action: [{icon:'🫂',label:'hugs'},{icon:'❤️',label:'loves'},{icon:'😄',label:'laughs with'},{icon:'📚',label:'reads to'}],
+    thing:  [{icon:'👧',label:'me'},{icon:'👶',label:'the baby'},{icon:'🐶',label:'the doggy'},{icon:'🏠',label:'everyone'}],
+  }
+};
+const SB_STEPS = ['who','action','thing'];
+const SB_STEP_CFG = {
+  who:    {pill:'Step 1',pillClass:'pill-who',    desc:'Choose WHO is in your sentence', icon:'👤', label:'Who?'},
+  action: {pill:'Step 2',pillClass:'pill-action', desc:'Choose what they DO',             icon:'⚡', label:'Does what?'},
+  thing:  {pill:'Step 3',pillClass:'pill-thing',  desc:'Choose WHAT or WHERE',            icon:'✨', label:'What / Where?'},
+};
+const SB_CELEBS = [
+  {emoji:'🎉',text:'Wow, a real sentence! You did it!'},
+  {emoji:'🌟',text:'That\'s amazing! A whole sentence!'},
+  {emoji:'🦋',text:'Beautiful sentence! You\'re a star!'},
+  {emoji:'🎊',text:'Yes! Three words make a sentence!'},
+  {emoji:'🏆',text:'Superstar sentence builder!'},
+];
+const SB_AVATARS = ['🐣','🐥','🐤','🦅'];
+let sbFilled = {who:null,action:null,thing:null};
+let sbStep = 'who';
+let sbScene = 'animals';
+let sbStars = 0, sbCount = 0;
+
+function sbRenderGrid() {
+  const words = SB_SCENES[sbScene][sbStep] || [];
+  document.getElementById('sb-word-grid').innerHTML = words.map(w => `
+    <div class="sb-word-card match match-${sbStep}" onclick="sbSelect('${w.label.replace(/'/g,"\\'")}','${sbStep}','${w.icon}')">
+      <div class="sb-word-icon">${w.icon}</div>
+      <div class="sb-word-label">${w.label}</div>
+      <div class="sb-word-badge badge-${sbStep}">${sbStep==='thing'?'what/where':sbStep}</div>
+    </div>`).join('');
+}
+
+function sbSelect(label, type, icon) {
+  sbFilled[type] = {label, icon};
+  const slot = document.getElementById('sb-slot-' + type);
+  slot.className = 'slot filled-' + type;
+  document.getElementById('sb-si-' + type).textContent = icon;
+  document.getElementById('sb-sl-' + type).textContent = label;
+  document.getElementById('sb-sh-' + type).innerHTML = `<span class="slot-remove" onclick="sbClearSlot('${type}')">✕ change</span>`;
+  sbUpdatePreview();
+  const ni = SB_STEPS.indexOf(type) + 1;
+  if (ni < SB_STEPS.length) sbAdvance(SB_STEPS[ni]);
+  else sbAllFilled();
+}
+
+function sbAdvance(step) {
+  sbStep = step;
+  document.getElementById('sb-slot-' + step).classList.add('active');
+  const cfg = SB_STEP_CFG[step];
+  document.getElementById('sb-step-pill').textContent = cfg.pill;
+  document.getElementById('sb-step-pill').className = 'sb-step-pill ' + cfg.pillClass;
+  document.getElementById('sb-step-desc').textContent = cfg.desc;
+  document.getElementById('sb-inst').textContent = cfg.pill + ' — ' + cfg.desc;
+  sbRenderGrid();
+}
+
+function sbClearSlot(type) {
+  sbFilled[type] = null;
+  const cfg = SB_STEP_CFG[type];
+  const slot = document.getElementById('sb-slot-' + type);
+  slot.className = 'slot';
+  document.getElementById('sb-si-' + type).textContent = cfg.icon;
+  document.getElementById('sb-sl-' + type).textContent = cfg.label;
+  document.getElementById('sb-sh-' + type).textContent = '';
+  const idx = SB_STEPS.indexOf(type);
+  for (let i = idx + 1; i < SB_STEPS.length; i++) {
+    const s = SB_STEPS[i];
+    if (sbFilled[s]) { sbFilled[s] = null; const c = SB_STEP_CFG[s]; document.getElementById('sb-slot-'+s).className='slot'; document.getElementById('sb-si-'+s).textContent=c.icon; document.getElementById('sb-sl-'+s).textContent=c.label; document.getElementById('sb-sh-'+s).textContent=''; }
+  }
+  sbStep = type;
+  document.getElementById('sb-slot-' + type).classList.add('active');
+  const cfg2 = SB_STEP_CFG[type];
+  document.getElementById('sb-step-pill').textContent = cfg2.pill;
+  document.getElementById('sb-step-pill').className = 'sb-step-pill ' + cfg2.pillClass;
+  document.getElementById('sb-step-desc').textContent = cfg2.desc;
+  document.getElementById('sb-inst').textContent = cfg2.pill + ' — ' + cfg2.desc;
+  document.getElementById('sb-speak-btn').disabled = true;
+  sbUpdatePreview();
+  sbRenderGrid();
+}
+
+function sbAllFilled() {
+  ['who','action','thing'].forEach(s => document.getElementById('sb-slot-'+s).classList.remove('active'));
+  document.getElementById('sb-speak-btn').disabled = false;
+  document.getElementById('sb-inst').textContent = '🎉 Sentence ready — press Speak!';
+  document.getElementById('sb-inst-dot').style.background = 'var(--green)';
+  document.getElementById('sb-step-pill').textContent = 'Done!';
+  document.getElementById('sb-step-pill').className = 'sb-step-pill pill-done';
+  document.getElementById('sb-step-desc').textContent = 'Press Speak to hear your sentence!';
+  document.getElementById('sb-word-grid').innerHTML = '<div style="padding:18px 10px;text-align:center;color:#6B7280;font-size:13px;font-weight:700;grid-column:1/-1;">✅ Press <em>Say my sentence!</em> 🎉</div>';
+}
+
+function sbUpdatePreview() {
+  const parts = [sbFilled.who, sbFilled.action, sbFilled.thing].filter(Boolean).map(w => w.label);
+  const prev = document.getElementById('sb-preview');
+  if (parts.length) { prev.textContent = parts.join(' ') + (parts.length===3?'!':' ...'); prev.classList.add('show'); }
+  else prev.classList.remove('show');
+}
+
+function sbClear() {
+  sbFilled = {who:null,action:null,thing:null};
+  sbStep = 'who';
+  SB_STEPS.forEach(s => {
+    const cfg = SB_STEP_CFG[s];
+    document.getElementById('sb-slot-'+s).className = 'slot';
+    document.getElementById('sb-si-'+s).textContent = cfg.icon;
+    document.getElementById('sb-sl-'+s).textContent = cfg.label;
+    document.getElementById('sb-sh-'+s).textContent = '';
+  });
+  document.getElementById('sb-slot-who').classList.add('active');
+  document.getElementById('sb-speak-btn').disabled = true;
+  document.getElementById('sb-inst').textContent = 'Step 1 — Who is in your sentence?';
+  document.getElementById('sb-inst-dot').style.background = 'var(--teal)';
+  document.getElementById('sb-step-pill').textContent = 'Step 1';
+  document.getElementById('sb-step-pill').className = 'sb-step-pill pill-who';
+  document.getElementById('sb-step-desc').textContent = 'Choose WHO is in your sentence';
+  document.getElementById('sb-preview').classList.remove('show');
+  document.getElementById('sb-celebrate').classList.remove('show');
+  sbRenderGrid();
+}
+
+function sbReset() { sbClear(); sbStars=0; sbCount=0; document.getElementById('sb-stars').textContent='⭐ 0 stars'; document.getElementById('sb-m-fill').style.width='0%'; document.getElementById('sb-m-count').textContent='0 / 5 ⭐'; document.getElementById('qc-avatar').textContent='🐣'; }
+
+function sbSetScene(scene, el) {
+  sbScene = scene;
+  document.querySelectorAll('.sb-scene-tab').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  sbClear();
+}
+
+function sbSpeak() {
+  if (!sbFilled.who || !sbFilled.action || !sbFilled.thing) return;
+  const text = sbFilled.who.label + ' ' + sbFilled.action.label + ' ' + sbFilled.thing.label;
+  if ('speechSynthesis' in window) { const u = new SpeechSynthesisUtterance(text); u.rate=0.8; u.pitch=1.15; speechSynthesis.speak(u); }
+  sbCount++; sbStars++;
+  const pct = Math.min(Math.round((sbCount/5)*100),100);
+  document.getElementById('sb-m-fill').style.width = pct + '%';
+  document.getElementById('sb-m-count').textContent = Math.min(sbCount,5) + ' / 5 ⭐';
+  document.getElementById('sb-stars').textContent = '⭐ ' + sbStars + (sbStars===1?' star':' stars');
+  document.getElementById('qc-avatar').textContent = SB_AVATARS[Math.min(Math.floor(sbStars/2),3)];
+  const c = SB_CELEBS[(sbCount-1)%SB_CELEBS.length];
+  const burst = document.getElementById('star-burst');
+  document.getElementById('sb-emoji').textContent = c.emoji;
+  document.getElementById('sb-text').textContent = c.text;
+  document.getElementById('sb-sub').textContent = '"' + text + '"';
+  burst.style.display = 'flex';
+  if ('speechSynthesis' in window) { const c2 = new SpeechSynthesisUtterance(c.text); c2.rate=0.9; c2.pitch=1.2; setTimeout(()=>speechSynthesis.speak(c2),600); }
+  setTimeout(() => { burst.style.display='none'; sbClear(); }, 3500);
+}
+
+/* ONBOARDING */
+let obCurrentStep = 0;
+function obNext(step) {
+  document.getElementById('ob-step-'+obCurrentStep).classList.remove('active');
+  obCurrentStep = step;
+  document.getElementById('ob-step-'+step).classList.add('active');
+  document.getElementById('ob-step-badge').textContent = 'Step ' + (step+1) + ' of 4';
+  [0,1,2,3].forEach(i => {
+    const dot = document.getElementById('ob-p'+i);
+    dot.classList.remove('done','active');
+    if (i < step) dot.classList.add('done');
+    else if (i === step) dot.classList.add('active');
+  });
+}
+function obSelect(el, groupId) {
+  const parent = el.closest('.ob-options');
+  parent.querySelectorAll('.ob-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+sbRenderGrid();
+</script>
+</body>
+</html>
